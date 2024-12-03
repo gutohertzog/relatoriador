@@ -3,7 +3,7 @@ arquivo usado para gerar o relatório de trabalho
 """
 from bs4 import BeautifulSoup as bs
 
-__version__ = 'v1.0.5'
+__version__ = 'v1.0.6'
 __author__ = 'Guto Hertzog'
 
 ARQ = 'pagina.html'
@@ -36,8 +36,8 @@ class Tarefa:
 
     def gera_redmine(self):
         """gera o texto para o formato do redmine"""
-        self.redmine = f'    * {self.code} "{self.titulo}":{self.link_tarefa} '
-        self.redmine += f'[x{str(self.contador)}][h{self.horas:.2f}]\n'
+        self.redmine = f'| {self.code} | "{self.titulo}":{self.link_tarefa} | '
+        self.redmine += f'x{str(self.contador)} | h{self.horas:.2f} |\n'
 
 
 def bubble_sort(lista):
@@ -108,11 +108,12 @@ def salva(grupos):
         arq.write('"Lista de Tarefas":\n\n')
 
         for projeto, tarefas in grupos.items():
-            arq.write(f'\n* "{projeto}":{tarefas[0].link_projeto} ')
-            arq.write(f'[x{len(tarefas)}]\n\n')
+            arq.write(f'||_."{projeto}":{tarefas[0].link_projeto} |_. ')
+            arq.write(f'x{len(tarefas)} ||\n')
             for tarefa in tarefas:
                 arq.write(tarefa.redmine)
                 total += tarefa.horas
+            arq.write('|\\4=.|\n')
 
         texto = f'\nTotal : {total:.2f}'
         arq.write(texto)
@@ -128,10 +129,12 @@ def agrupa(tarefas) -> dict:
 
     return grupos
 
+
 def dados() -> None:
     """ só uma função besta para mostrar meus dados """
     print(f'versão : {__version__}')
     print(f'autor : {__author__}')
+
 
 def start():
     """ inicia o programa """
@@ -159,3 +162,4 @@ def start():
 
 if __name__ == "__main__":
     start()
+
