@@ -105,17 +105,15 @@ def salva(grupos):
     """funcao para salvar em arquivo o relatorio"""
     total = 0
     with open(REL, 'w', encoding='utf-8') as arq:
-        arq.write('"Lista de Tarefas":\n\n')
-
         for projeto, tarefas in grupos.items():
-            arq.write(f'||_."{projeto}":{tarefas[0].link_projeto} |_. ')
+            arq.write(f'|\\2=."{projeto}":{tarefas[0].link_projeto} |_. ')
             arq.write(f'x{len(tarefas)} ||\n')
             for tarefa in tarefas:
                 arq.write(tarefa.redmine)
                 total += tarefa.horas
             arq.write('|\\4=.|\n')
 
-        texto = f'\nTotal : {total:.2f}'
+        texto = f'|\\3>. Total | h{total:.2f} |'
         arq.write(texto)
 
 def agrupa(tarefas) -> dict:
